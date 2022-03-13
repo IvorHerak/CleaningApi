@@ -5,7 +5,7 @@ using System.Collections.Generic;
 using System.Net;
 using System.Text.Json;
 
-namespace CleaningManagement.Api.Middleware.ExceptionToHttpResponseMapper
+namespace CleaningManagement.Api.Middleware.ExceptionHandler
 {
     public class ExceptionToHttpResponseParametersMapper : IExceptionToHttpResponseParametersMapper
     {

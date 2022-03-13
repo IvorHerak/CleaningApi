@@ -1,4 +1,4 @@
-﻿namespace CleaningManagement.Api.Middleware.ExceptionToHttpResponseMapper
+﻿namespace CleaningManagement.Api.Middleware.ExceptionHandler
 {
     public class HttpResponseParameters
     {

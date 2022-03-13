@@ -111,7 +111,6 @@ namespace CleaningManagement.BLL.Tests
                     Description = "Description"
                 }
             );
-
             respository.Data.Add
             (
                 new CleaningPlan
@@ -190,7 +189,6 @@ namespace CleaningManagement.BLL.Tests
             //Arrange
             var respository = new TestRepository<CleaningPlan>();
             var createValidator = new Mock<IValidator<CreateCleaningPlanRequest>>().Object;
-
             var updateValidatorMock = new Mock<IValidator<UpdateCleaningPlanRequest>>();
             updateValidatorMock.Setup(v => v.Validate(It.IsAny<UpdateCleaningPlanRequest>()))
                 .Returns
@@ -200,7 +198,9 @@ namespace CleaningManagement.BLL.Tests
                         new List<ValidationFailure> { new ValidationFailure("testProperty", "testMessage") }
                     )
                 );
+            var service = new CleaningPlanService(respository, createValidator, updateValidatorMock.Object);
 
+            //Act
             var request = new UpdateCleaningPlanRequest
             {
                 CustomerId = 1,
@@ -208,10 +208,6 @@ namespace CleaningManagement.BLL.Tests
                 Id = Guid.NewGuid(),
                 Title = "Title"
             };
-
-            var service = new CleaningPlanService(respository, createValidator, updateValidatorMock.Object);
-
-            //Act
             try
             {
                 await service.UpdateCleaningPlanAsync(request);
@@ -248,14 +244,15 @@ namespace CleaningManagement.BLL.Tests
                  }
              );
             var createValidator = new Mock<IValidator<CreateCleaningPlanRequest>>().Object;
-
             var updateValidatorMock = new Mock<IValidator<UpdateCleaningPlanRequest>>();
             updateValidatorMock.Setup(v => v.Validate(It.IsAny<UpdateCleaningPlanRequest>()))
                 .Returns
                 (
                     new ValidationResult()
                 );
+            var service = new CleaningPlanService(respository, createValidator, updateValidatorMock.Object);
 
+            //Act
             var request = new UpdateCleaningPlanRequest
             {
                 CustomerId = 1,
@@ -263,10 +260,6 @@ namespace CleaningManagement.BLL.Tests
                 Id = guid,
                 Title = "Title UPD"
             };
-
-            var service = new CleaningPlanService(respository, createValidator, updateValidatorMock.Object);
-
-            //Act
             var response = await service.UpdateCleaningPlanAsync(request);
 
             //Assert
@@ -284,7 +277,6 @@ namespace CleaningManagement.BLL.Tests
             Assert.AreEqual("Description UPD", plan.Description);
             Assert.AreEqual("Title UPD", plan.Title);
             Assert.AreEqual(date, plan.CreationDate);
-
         }
 
         [Test]
@@ -299,7 +291,9 @@ namespace CleaningManagement.BLL.Tests
                 (
                     new ValidationResult()
                 );
+            var service = new CleaningPlanService(respository, createValidator, updateValidatorMock.Object);
 
+            //Act & Assert
             var request = new UpdateCleaningPlanRequest
             {
                 CustomerId = 1,
@@ -307,10 +301,6 @@ namespace CleaningManagement.BLL.Tests
                 Id = Guid.Empty,
                 Title = "Title UPD"
             };
-
-            var service = new CleaningPlanService(respository, createValidator, updateValidatorMock.Object);
-
-            //Act & Assert
             Assert.ThrowsAsync<KeyNotFoundException>(async () => await service.UpdateCleaningPlanAsync(request));
         }
 
@@ -328,19 +318,16 @@ namespace CleaningManagement.BLL.Tests
                         new List<ValidationFailure> { new ValidationFailure("testProperty", "testMessage") }
                     )
                 );
-
             var updateValidator = new Mock<IValidator<UpdateCleaningPlanRequest>>().Object;
+            var service = new CleaningPlanService(respository, createValidatorMock.Object, updateValidator);
 
+            //Act
             var request = new CreateCleaningPlanRequest
             {
                 CustomerId = 1,
                 Description = "Description",
                 Title = "Title"
             };
-
-            var service = new CleaningPlanService(respository, createValidatorMock.Object, updateValidator);
-
-            //Act
             try
             {
                 await service.CreateCleaningPlanAsync(request);
@@ -370,17 +357,15 @@ namespace CleaningManagement.BLL.Tests
                     new ValidationResult()
                 );
             var updateValidator = new Mock<IValidator<UpdateCleaningPlanRequest>>().Object;
+            var service = new CleaningPlanService(respository, createValidatorMock.Object, updateValidator);
 
+            //Act
             var request = new CreateCleaningPlanRequest
             {
                 CustomerId = 1,
                 Description = "Description",
                 Title = "Title"
             };
-
-            var service = new CleaningPlanService(respository, createValidatorMock.Object, updateValidator);
-
-            //Act
             var response = await service.CreateCleaningPlanAsync(request);
 
             //Assert
@@ -394,7 +379,6 @@ namespace CleaningManagement.BLL.Tests
             Assert.AreEqual(1, plan.CustomerId);
             Assert.AreEqual("Description", plan.Description);
             Assert.AreEqual("Title", plan.Title);
-
         }
     }
 }

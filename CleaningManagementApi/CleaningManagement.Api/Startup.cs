@@ -17,7 +17,7 @@ namespace CleaningManagement.Api
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddExceptionToHttpResponseMapper();
+            services.AddExceptionHandlerMiddleware();
             services.AddAnyOriginCors();
             services.AddControllers();
             services.AddEFCoreWithRepositories();
@@ -32,7 +32,7 @@ namespace CleaningManagement.Api
             app.UseHttpsRedirection();
             app.UseAnyOriginCors();
             app.UseRouting();
-            app.UseExceptionToHttpResponseMapper();
+            app.UseExceptionHandlerMiddleware();
             app.UseSwaggerWithUI();
             app.UseEndpoints(endpoints =>
             {
